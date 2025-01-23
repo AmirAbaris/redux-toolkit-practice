@@ -3,7 +3,7 @@
 import { useGetPostsQuery } from "@/services/jsonPlaceholderApi";
 
 export default function Home() {
-  const { data, error, isLoading } = useGetPostsQuery();
+  const { data, error, isLoading } = useGetPostsQuery(undefined);
 
   if (isLoading) {
     return <div>loadinggg.....</div>;
