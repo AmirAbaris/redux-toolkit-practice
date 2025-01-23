@@ -1,16 +1,36 @@
 "use client";
 
-import { useGetPostsQuery } from "@/services/jsonPlaceholderApi";
+import {
+  useCreatePostsMutation,
+  useGetPostsQuery,
+} from "@/services/jsonPlaceholderApi";
+import { useState } from "react";
 
 export default function Home() {
+  const [newPost, setNewPost] = useState({ title: "", body: "", id: 69 });
+
   const { data, error, isLoading } = useGetPostsQuery(undefined);
+  const [createPost, { isLoading: isCreating, error: createError }] =
+    useCreatePostsMutation(undefined);
 
   if (isLoading) {
     return <div>loadinggg.....</div>;
   }
 
+  if (isCreating) {
+    return <div>Creating...</div>;
+  }
+
   if (error) {
     return <div>Erorrrrrrr idiot</div>;
+  }
+
+  if (createError) {
+    return <div>not cooool, u got a creation error, bad boy</div>;
+  }
+
+  async function handleCreatePost() {
+    await createPost(newPost);
   }
 
   return (
@@ -23,6 +43,19 @@ export default function Home() {
             <p>{post.body}</p>
           </div>
         ))}
+      </div>
+
+      <div className="mt-12">
+        <h4>CREATEEEE POST</h4>
+        <input type="text" placeholder="title" />
+        <input
+          type="text"
+          placeholder="body"
+          onChange={(e) =>
+            setNewPost((prev) => ({ ...prev, body: e.target.value }))
+          }
+        />
+        <button onClick={handleCreatePost}>create the freaking post</button>
       </div>
     </div>
   );
