@@ -16,7 +16,7 @@ export const jsonPlaceHolderApi = createApi({
         body: newPost,
       }),
     }),
-  }), // Ensure this closing parenthesis matches the `endpoints` function
+  }),
 });
 
 export const { useGetPostsQuery, useCreatePostsMutation } = jsonPlaceHolderApi;
